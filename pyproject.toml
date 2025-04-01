@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "afk-toolset-http"
+version = "0.1.0"
+description = ""
+authors = ["luchenxu73 <chenxu.lu@hdu.edu.cn>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+torch = "^2.5.1"
+torchaudio = "^2.5.1"
+torchvision = "^0.20.1"
+requests = "^2.32.3"
+pandas = "^2.2.3"
+fastapi = "^0.115.6"
+uvicorn = { extras = ["standard"], version = "^0.34.0" }
+
+[[tool.poetry.source]]
+name = "bfsu"
+url = "https://mirrors.bfsu.edu.cn/pypi/web/simple"
+priority = "primary"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+black = "^24.10.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
