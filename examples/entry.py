@@ -6,6 +6,7 @@ from model_impl import get_server
 
 app = FastAPI()
 
+
 @app.post("/detect")
 async def detect(
     request: DetectRequest, server: Annotated[AfkServer, Depends(get_server)]
