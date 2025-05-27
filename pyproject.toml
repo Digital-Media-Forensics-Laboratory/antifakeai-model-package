@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "afk-toolset-http"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["luchenxu73 <chenxu.lu@hdu.edu.cn>"]
 license = "MIT"
