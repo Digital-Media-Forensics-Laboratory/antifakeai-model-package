@@ -90,12 +90,12 @@ class AfkDetector(IAfkDetector):
         model: AfkModel,
     ):
 
-        if (
-            self.server_mode == "align"
-            and self.models
-            and not self.__is_same_type(self.models[0], model)
-        ):
-            raise ValueError("Server is in align mode but heterogeneous model is find.")
+        # if (
+        #     self.server_mode == "align"
+        #     and self.models
+        #     and not self.__is_same_type(self.models[0], model)
+        # ):
+        #     raise ValueError("Server is in align mode but heterogeneous model is find.")
         self.models.append(model)
 
     def detect_single(self, request: DetectRequest) -> DetectResult:

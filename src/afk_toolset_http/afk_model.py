@@ -12,7 +12,9 @@ class AfkModel:
     def convert_resource(self, content: bytes) -> Union[Image.Image]:
         raise NotImplementedError()
 
-    def detect(self, img: Union[Image.Image, List[Image.Image]]) -> npt.NDArray:
+    def detect(
+        self, img: Union[Image.Image, List[Image.Image], str, List[str]]
+    ) -> npt.NDArray:
         raise NotImplementedError()
 
     def load_checkpoint(self, checkpoint: str) -> None:
@@ -98,3 +100,79 @@ class AfkImageModel(AfkModel):
             self.model = self.model.to(device)
 
 
+class AfkTextModel(AfkModel):
+    def __init__(
+        self,
+        model: nn.Module,
+        transform: Callable[[Image.Image], torch.Tensor],
+        device: str = "cuda",
+    ):
+        self.model: Optional[nn.Module] = model.to(device).eval()
+        self.transform = transform
+        self.device = device
+
+        # 为多线程并发环境下添加锁
+        self.lock = threading.Lock()
+
+    def convert_resource(self, content: bytes) -> str:
+        return content.decode("utf-8")
+
+    def detect(self, text: str) -> npt.NDArray:
+        raise NotImplementedError()
+
+    def load_checkpoint(self, checkpoint: str) -> None:
+        """
+        加载模型参数
+        :param checkpoint: 模型参数路径
+        :return:
+        """
+        try:
+            with self.lock:
+                self.model.load_state_dict(torch.load(checkpoint))
+                self.model.eval()
+        except Exception as e:
+            raise e
+
+    def move_to_device(self, device: str):
+        with self.lock:
+            self.device = device
+            self.model = self.model.to(device)
+
+
+class AfkAudioModel(AfkModel):
+    def __init__(
+        self,
+        model: nn.Module,
+        transform: Callable[[Image.Image], torch.Tensor],
+        device: str = "cuda",
+    ):
+        self.model: Optional[nn.Module] = model.to(device).eval()
+        self.transform = transform
+        self.device = device
+
+        # 为多线程并发环境下添加锁
+        self.lock = threading.Lock()
+
+    def convert_resource(self, content: bytes) -> str:
+        return content.decode("utf-8")
+
+    def detect(self, text: str) -> npt.NDArray:
+        raise NotImplementedError()
+
+    def load_checkpoint(self, checkpoint: str) -> None:
+        """
+        加载模型参数
+        :param checkpoint: 模型参数路径
+        :return:
+        """
+        try:
+            with self.lock:
+                self.model.load_state_dict(torch.load(checkpoint))
+                self.model.eval()
+        except Exception as e:
+            raise e
+
+    def move_to_device(self, device: str):
+        with self.lock:
+            self.device = device
+            self.model = self.model.to(device)
