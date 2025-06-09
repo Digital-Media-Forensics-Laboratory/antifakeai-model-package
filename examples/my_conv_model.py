@@ -1,4 +1,4 @@
-from afk_toolset_http import AfkImageModel
+from afk_toolset_http import AfkImageModel, AfkAudioModel
 from torchvision import transforms, models
 import threading
 import torch
